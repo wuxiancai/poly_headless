@@ -18,6 +18,23 @@ if pgrep -f "crypto_trader.py" > /dev/null; then
     pkill -f "crypto_trader.py"
     sleep 2
 fi
+# 在VNC环境下,通常DISPLAY是:1
+export DISPLAY=":1"
+
+# 设置X11授权
+if [ -f "$HOME/.Xauthority" ]; then
+    export XAUTHORITY="$HOME/.Xauthority"
+else
+    # 尝试生成授权文件
+    touch "$HOME/.Xauthority"
+    export XAUTHORITY="$HOME/.Xauthority"
+fi
+
+echo -e "${YELLOW}使用 DISPLAY=$DISPLAY${NC}"
+echo -e "${YELLOW}使用 XAUTHORITY=$XAUTHORITY${NC}"
+
+# 激活虚拟环境
+source venv/bin/activate
 
 # 启动无浏览器模式程序
 echo "🔧 启动无浏览器模式程序..."
